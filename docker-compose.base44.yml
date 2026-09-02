@@ -18,24 +18,7 @@ services:
       - ./.env.base44-defaults
       # …platform secrets last — always wins.
       - /run/base44/app.env
-    command: >
-      bash -c '
-      set -e
-      pip install --quiet uv
-      uv sync --extra notebooks --prerelease=if-necessary-or-explicit
-      uv pip install jupyterlab
-      uv run python -m ipykernel install --user --name semantic-kernel --display-name "Semantic Kernel (Python 3.12)"
-      exec uv run jupyter lab
-        --ip=0.0.0.0
-        --port=3000
-        --no-browser
-        --ServerApp.token=""
-        --ServerApp.password=""
-        --ServerApp.allow_origin="*"
-        --ServerApp.allow_remote_access=True
-        --ServerApp.tornado_settings="{\"headers\":{\"X-Frame-Options\":\"ALLOWALL\",\"Content-Security-Policy\":\"frame-ancestors *;\"}}"
-        --notebook-dir=/app/python/samples
-      '
+    command: ["bash", "/app/.base44/start.sh"]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/lab', timeout=3)"]
       interval: 10s
