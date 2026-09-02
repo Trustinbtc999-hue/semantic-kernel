@@ -20,7 +20,7 @@ services:
       - /run/base44/app.env
     command: ["bash", "/app/.base44/start.sh"]
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/lab', timeout=3)"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/api/health', timeout=3)"]
       interval: 10s
       timeout: 5s
       retries: 10
