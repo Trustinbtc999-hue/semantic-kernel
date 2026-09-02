@@ -1,0 +1,12 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/lab",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "OPENAI_API_KEY",
+      "description": "OpenAI API key — required for the Semantic Kernel notebooks/samples to call LLM models (chat completions, embeddings). Obtain from https://platform.openai.com/api-keys.",
+      "requiredAtBoot": false
+    }
+  ]
+}
