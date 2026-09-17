@@ -1,0 +1,27 @@
+services:
+  jupyter:
+    # Plain runtime base image — the SDK is installed from bind-mounted source, not baked in.
+    image: python:3.12-slim
+    working_dir: /app/python
+    volumes:
+      # Bind-mount the cloned source so edits are reflected live.
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      # Model IDs the SK OpenAI connector reads via pydantic-settings.
+      - OPENAI_CHAT_MODEL_ID=gpt-4o
+      - OPENAI_EMBEDDING_MODEL_ID=text-embedding-3-small
+      - PYTHONDONTWRITEBYTECODE=1
+    env_file:
+      # Placeholders first (app boots without credentials)…
+      - ./.env.base44-defaults
+      # …platform secrets last — always wins.
+      - /run/base44/app.env
+    command: ["bash", "/app/.base44/start.sh"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
