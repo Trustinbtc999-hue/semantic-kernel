@@ -62,7 +62,7 @@ dependencies = [
 ### Optional dependencies
 [project.optional-dependencies]
 anthropic = [
-    "anthropic ~= 0.32"
+    "anthropic >= 0.32,< 2.0"
 ]
 autogen = [
     "autogen-agentchat >= 0.2, <0.4"
